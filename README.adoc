@@ -15,8 +15,8 @@ To deploy and configure a microservice and UI, leverage the platform for monitor
 
 == Pre-work
 
-. Fork link:https://github.com/rjain-pivotal/pcf-workshop-workspace/[`PCF Workshop Workspace`]  
-. Review the link:https://github.com/rjain-pivotal/pcf-workshop-workspace/tree/master/cities[overview] of the `cities` repository.  
+. Fork link:https://github.com/rjain-pivotal/pcf-workspace-devops/[`PCF Workshop Workspace`]  
+. Review the link:https://github.com/rjain-pivotal/pcf-workspace-devops/tree/master[overview] of the `cities` repository.  
 . Clone the workspace cities repository locally
 . Review the documentation on link:http://docs.pivotal.io/pivotalcf/devguide/deploy-apps/prepare-to-deploy.html[Considerations for Designing and Running an Application in the Cloud]
 . Review the documentation on link:http://docs.pivotal.io/pivotalcf/devguide/deploy-apps/streaming-logs.html#writing[Writing to logs]
