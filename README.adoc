@@ -24,7 +24,7 @@ To deploy and configure a microservice and UI, leverage the platform for monitor
 == Steps
 In this workshop we are going to follow these steps to deploy apps on Cloud foundry and manage the lifecycle of the application. 
 
-image:./images/blue-green.png[Blue Green Deployment]
+image:./images/devops-cf.png[DevOps on CF]
 
 === Building apps
 To build the app go to the workspace folder
@@ -567,6 +567,8 @@ Connection: keep-alive
 5001
 
 ----
+=== Repeat the Process
+Change the version and build numbers and run the script to do blue-green deployment. Check the output using curl.
 
 === Process of Blue Green Deployment
 
@@ -593,8 +595,9 @@ $ cf zero-downtime-push application-to-replace \
 
 == Recap
 
-In this workshop we saw how to build, deploy, bind, scale, monitor apps on Cloud foundry and manage the lifecycle
-image:./images/blue-green.png[Blue Green Deployment]
+In this workshop we saw how to build, deploy, bind, scale, monitor apps on Cloud foundry and manage the lifecycle of the application
+
+image:./images/devops-cf.png[DevOps on CF]
 
 
 == Q/A
