@@ -15,7 +15,7 @@ To deploy and configure a microservice and UI, leverage the platform for monitor
 
 == Pre-work
 
-. Fork link:https://github.com/rjain-pivotal/pcf-workspace-devops/[`PCF Workshop Workspace`]  
+. Fork link:https://github.com/rjain-pivotal/pcf-workspace-devops/[`PCF Workspace for DevOps`]  
 . Review the link:https://github.com/rjain-pivotal/pcf-workspace-devops/tree/master[overview] of the `cities` repository.  
 . Clone the workspace cities repository locally
 . Review the documentation on link:http://docs.pivotal.io/pivotalcf/devguide/deploy-apps/prepare-to-deploy.html[Considerations for Designing and Running an Application in the Cloud]
@@ -31,7 +31,7 @@ To build the app go to the workspace folder
 
 [source,bash]
 ----
-cd pcf-workshop-workspace/cities
+cd pcf-workspace-devops/cities
 gradle build
 ----
 
@@ -41,7 +41,7 @@ gradle build
 === Pushing the cities-service app using CLI
 [source,bash]
 ----
-cd pcf-workshop-workspace/cities/cities-service
+cd pcf-workspace-devops/cities/cities-service
 ----
 
 
