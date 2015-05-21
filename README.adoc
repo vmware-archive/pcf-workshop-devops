@@ -49,6 +49,26 @@ Use `cf help` and/or `cf <command> --help` for details on each of the commands b
 
 . Review the docs: http://docs.pivotal.io/pivotalcf/devguide/deploy-apps/deploy-app.html
 
+. Login to the PCF Env. Edit and Source the `env` file cities folder
+
+. Edit and source the `env` file from the cities-ui folder with the following variables
+
+[source,bash]
+---
+ export CF_SYSTEM_DOMAIN=
+ export CF_APPS_DOMAIN=
+ export CF_USER=
+ export CF_ORG=
+ export CF_SPACE=
+---
+
+[source,bash]
+----
+$source ./env
+$cf login -a https://api.$CF_SYSTEM_DOMAIN -u $CF_USER -o $CF_ORG -s $CF_SPACE --skip-ssl-validation
+
+----
+
 . Verify you are logged in with your own userid (*not admin*) and targeted to your PCF instance:
 +
 [source,bash]
@@ -482,7 +502,7 @@ We are going to deploy the next version of the `cities-ui` app. The deployment t
  VERSION: CITIES_APP_2_0
 ---
 
-. Edit and source a link:./.env[env file] with the following variables
+. Edit and source the `env` file from the cities-ui folder with the following variables
 
 [source,bash]
 ---
