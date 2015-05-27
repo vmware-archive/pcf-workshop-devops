@@ -70,6 +70,7 @@ $cf login -a https://api.$CF_SYSTEM_DOMAIN -u $CF_USER -o $CF_ORG -s $CF_SPACE
 ----
 [NOTE]
 add `--skip-ssl-validation` if you are pointing to CF installation which is using self signed certificates. 
+
 +
 . Verify you are logged in with your own userid (*not admin*) and targeted to your PCF instance:
 +
@@ -80,6 +81,7 @@ $ cf target
 
 . Push the cities-service:
 Before pushing the app, check if the route exists and we can reach it. 
+
 +
 [source,bash]
 ----
@@ -90,7 +92,7 @@ $ cf push <first-initial><last-initial>-cities-service -i 1 -m 512M -p build/lib
 +
 * Be sure to name your application '<first-initial><last-initial>-cities-service'
 
-. Verify you can access your application via a curl request:
+. Verify you can access your application via a curl request or from a Web Browser:
 +
 [source,bash]
 ----
@@ -136,6 +138,7 @@ dependencies {
 ----
 
 . Copy the Spring Cloud Config file +org.example.cities.config.CloudDataSourceConfig+. 
+
 +
 [source,bash]
 ----
@@ -146,6 +149,7 @@ $./gradlew build
 ----
 
 The Spring Cloud Config file source code: 
+
 +
 [source,java]
 ----
@@ -169,7 +173,7 @@ public class CloudDataSourceConfig extends AbstractCloudConfig {
 
 ----
 
-. Note
+[NOTE]
 +
 * The `@Profile` annotation will cause this class (which becomes Spring configuration when annotated as `@Configuration`) to be added to the configuration set because of the `SPRING_PROFILES_ACTIVE` environment variable (more on this later). You can still run the application locally (with the default profile) using the embedded database.
 * With this code, Spring Cloud will detect a bound service that is compatible with +DataSource+, read the credentials, and then create a +DataSource+ as appropriate (it will throw an exception otherwise).
@@ -180,7 +184,6 @@ public class CloudDataSourceConfig extends AbstractCloudConfig {
 ----
 spring.jpa.hibernate.ddl-auto=create
 ----
-
 + 
 Now do a cf push and check the log files
 [source,bash]
