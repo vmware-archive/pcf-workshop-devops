@@ -23,9 +23,10 @@ In this workshop we are going to follow these steps to deploy apps on Cloud foun
 
 image:./images/devops-cf.png[DevOps on CF]
 
+
 [NOTE]
-The instructions in this document are for Mac/Linux based CLI/Shell. If you are using Windows, you can use link:http://docs.cloudfoundry.org/devguide/installcf/install-go-cli.html#windows[Windows CLI],
-Virtual Box / Vagrant with a link:./vagrant.adoc[Linux VM] 
+The instructions in this document are for Mac/Linux based CLI/Shell. If you are using Windows, you can use link:http://docs.cloudfoundry.org/devguide/installcf/install-go-cli.html#windows[Windows CLI] 
+or a Virtual Box / Vagrant with a link:./vagrant.adoc[Linux VM].
 
 === Building apps
 To build the app go to the workspace folder
@@ -66,7 +67,8 @@ Use `cf help` and/or `cf <command> --help` for details on each of the commands b
 $source ./env
 $cf login -a https://api.$CF_SYSTEM_DOMAIN -u $CF_USER -o $CF_ORG -s $CF_SPACE 
 ----
-.. note: add `--skip-ssl-validation` if you are pointing to CF installation which is using self signed certificates. 
+[NOTE]
+add `--skip-ssl-validation` if you are pointing to CF installation which is using self signed certificates. 
 +
 . Verify you are logged in with your own userid (*not admin*) and targeted to your PCF instance:
 +
