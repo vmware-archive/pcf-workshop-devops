@@ -292,10 +292,37 @@ $ curl -i http://<first-initial><last-initial>-cities-service.cfapps.io/cities/1
 
 For other ways of viewing logs check out the documentation here: http://docs.pivotal.io/pivotalcf/devguide/deploy-apps/streaming-logs.html#view
 
+To view recent events, including application crashes, and error codes, you can see them from the App Manager or from the cli. 
+[source,bash]
+----
+$ cf events <first-initial><last-initial>-cities-service
+----
+
+To view the health of the application you can see from the App Manager or from the cli:
+[source,bash]
+----
+$ cf app <first-initial><last-initial>-cities-service
+----
+You will get detailed output of the health
+[source,bash]
+----
+Showing health and status for app cities-service in org  / space development as...
+OK
+
+requested state: started
+instances: 1/1
+usage: 512M x 1 instances
+urls: cities-service.cfapps.io
+last uploaded: Wed May 27 15:53:32 UTC 2015
+stack: cflinuxfs2
+
+     state     since                    cpu    memory           disk           details   
+#0   running   2015-05-27 12:17:55 PM   0.1%   434.5M of 512M   145.4M of 1G      
+----
 
 === Environment variables
 
-View the environment variable and explantion of VCAP
+View the environment variable and explanation of link:http://docs.cloudfoundry.org/devguide/deploy-apps/environment-variable.html#view-env [VCAP Env]
 
 [source,bash]
 ----
