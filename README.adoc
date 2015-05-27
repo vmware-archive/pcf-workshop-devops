@@ -245,21 +245,18 @@ $ cf env <first-initial><last-initial>-cities-service
 Next, push the cities-service app. This time we'll use a manifest to help automate deployment.
 
 . Review the documentation: http://docs.pivotal.io/pivotalcf/devguide/deploy-apps/manifest.html
-. Copy the application manifest  `manifest.yml` from your `cities-service/templates` directory to `cities-service`.  Minimally, you must set the name of the app, the amount of memory, the number of instances, and the path to the .jar file.
+. Copy the application manifest  `manifest.yml` from your `cities-service/templates` directory to `cities-service`.  
 +
 [source,bash]
 ----
 $cp templates/manifest.yml .
 ----
 +
+. Set the name of the app, the amount of memory, the number of instances, and the path to the .jar file.
 *Be sure to name your application '<first-initial><last-initial>-cities-service' and use this as the host value.*
-+ 
 . Add the services binding `<YOUR INITIALS>-cities-db` to your deployment manifest for cities-service .
-
 . Set the `SPRING_PROFILES_ACTIVE` environment variable to `cloud` in your deployment manifest.
-
 . Now, manually unbind the service and re-push your app using the manifest.  Was the database populated?
-
 . Test your manifest by re-pushing your app with no parameters:
 +
 [source,bash]
@@ -273,7 +270,8 @@ $ curl -i http://<first-initial><last-initial>-cities-service.cfapps.io
 ----
 We must be able to access your application at https://<first-initial><last-initial>-cities-service.YOUR_PCF_APP_DOMAIN
 
-. QUESTION: How would you set the `SPRING_PROFILES_ACTIVE` variable from the CLI?
+[QUESTION]
+How would you set the `SPRING_PROFILES_ACTIVE` variable from the CLI?
 
 
 === Health, logging & events via the CLI
