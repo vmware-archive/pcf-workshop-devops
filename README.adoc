@@ -7,23 +7,24 @@ To deploy and configure a microservice and UI, leverage the platform for monitor
 == Prerequisites 
 
 . Java SDK 1.6+
-. Git
-. Gradle link:https://gradle.org/[gradle.org]
+. Git link:https://mac.github.com/[github.com]
 . Cloud Foundry CLI link:https://github.com/cloudfoundry/cli/releases[`CF CLI Releases`]
-. Curl
+. Curl link:http://curl.haxx.se/[curl]
 . Pivotal Web Services Account. Create a free trial account here link:http://run.pivotal.io/[`Pivotal Web Services`]
+. Familiarity with Spring link:http://www.spring.io[Spring IO]
 
 == Pre-work
 
-. Fork and Clone link:https://github.com/rjain-pivotal/pcf-workspace-devops/[`PCF Workspace for DevOps`]  
-. Review the link:https://github.com/rjain-pivotal/pcf-workspace-devops/tree/master[Overview] of the `cities` application.  
-. Review the documentation on link:http://docs.pivotal.io/pivotalcf/devguide/deploy-apps/prepare-to-deploy.html[Considerations for Designing and Running an Application in the Cloud]
-. Review the documentation on link:http://docs.pivotal.io/pivotalcf/devguide/deploy-apps/streaming-logs.html#writing[Writing to logs]
+. Fork and Clone link:https://github.com/Pivotal-Field-Engineering/pcf-workspace-devops/[`PCF Workspace for DevOps`]  
+. Review the link:https://github.com/Pivotal-Field-Engineering/pcf-workspace-devops/tree/master[Overview] of the `cities` application.  
 
 == Steps
 In this workshop we are going to follow these steps to deploy apps on Cloud foundry and manage the lifecycle of the application. 
 
 image:./images/devops-cf.png[DevOps on CF]
+
+.. note:: The instructions in this document are for Mac/Linux based CLI/Shell. If you are using Windows, you can use link:http://docs.cloudfoundry.org/devguide/installcf/install-go-cli.html#windows[Windows CLI],
+Virtual Box / Vagrant with a link:./vagrant.adoc[Linux VM] 
 
 === Building apps
 To build the app go to the workspace folder
@@ -31,7 +32,7 @@ To build the app go to the workspace folder
 [source,bash]
 ----
 cd pcf-workspace-devops/cities
-gradle build
+gradlew build
 ----
 
 
