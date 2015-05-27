@@ -23,7 +23,8 @@ In this workshop we are going to follow these steps to deploy apps on Cloud foun
 
 image:./images/devops-cf.png[DevOps on CF]
 
-.. note:: The instructions in this document are for Mac/Linux based CLI/Shell. If you are using Windows, you can use link:http://docs.cloudfoundry.org/devguide/installcf/install-go-cli.html#windows[Windows CLI],
+[NOTE]
+The instructions in this document are for Mac/Linux based CLI/Shell. If you are using Windows, you can use link:http://docs.cloudfoundry.org/devguide/installcf/install-go-cli.html#windows[Windows CLI],
 Virtual Box / Vagrant with a link:./vagrant.adoc[Linux VM] 
 
 === Building apps
