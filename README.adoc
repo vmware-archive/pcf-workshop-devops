@@ -146,7 +146,7 @@ $./gradlew clean
 $./gradlew build
 ----
 +
-. Review The Spring Cloud Config file source code. 
+. Review the Spring Cloud Config file. 
 .. The `@Profile` annotation will cause this class (which becomes Spring configuration when annotated as `@Configuration`) to be added to the configuration set because of the `SPRING_PROFILES_ACTIVE` environment variable (more on this later). You can still run the application locally (with the default profile) using the embedded database.
 .. With this code, Spring Cloud will detect a bound service that is compatible with +DataSource+, read the credentials, and then create a +DataSource+ as appropriate (it will throw an exception otherwise).
 +
@@ -178,7 +178,7 @@ public class CloudDataSourceConfig extends AbstractCloudConfig {
 spring.jpa.hibernate.ddl-auto=create
 ----
 +
-. Now do a cf push and check the log files
+. Now do a cf push and check the log files. You should see service exceptions. 
 +
 [source,bash]
 ----
@@ -197,8 +197,17 @@ Looks like we need a service.  Let's create one.
 +
 
 . Create a mysql service instance, name it as `<YOUR INITIALS>-cities-db`
+You can create the service from the `cli` or launch the App Manager http://console.run.pivotal.io and login. 
+Navigate to the marketplace and see the available services. 
++
+[source,bash]
+----
+$cf marketplace // check if cleardb mysql service is available 
+$cf create-service cleardb spark <first-initial><last-initial>-cities-db
+----
++
 
-. Launch the DB console via the `Manage` link in the Users Console.  Note the database is empty.
+. Launch the DB console via the `Manage` link in the App Manager.  Note the database is empty.
 
 
 === Manually Binding the Service Instance 
@@ -206,19 +215,34 @@ Looks like we need a service.  Let's create one.
 . Review the docs on link:http://docs.pivotal.io/pivotalcf/devguide/services/bind-service.html[Binding a Service Instance]
 
 . Bind the mysql instance `<YOUR INITIALS>-cities-db` to your app cities-service
+You can bind from the App Manager or from the `cli`
++
+[source,bash]
+----
+$cf bind-service <first-initial><last-initial>-cities-service <first-initial><last-initial>-cities-db
+----
++
 
 . Restage your cities-service application to inject the new database.
+
 +
 [source,bash]
 ----
 $ cf restage <first-initial><last-initial>-cities-service
 ----
 
+. Check the Env variables to see if the service is bound. 
+You can do it from App Manager or from the `cli`
++
+[source,bash]
+----
+$ cf env <first-initial><last-initial>-cities-service
+----
+
 
 === Binding Services via the Manifest
 
-Next, push the cities-service app.
-This time we'll use a manifest to help automate deployment.
+Next, push the cities-service app. This time we'll use a manifest to help automate deployment.
 
 . Review the documentation: http://docs.pivotal.io/pivotalcf/devguide/deploy-apps/manifest.html
 
