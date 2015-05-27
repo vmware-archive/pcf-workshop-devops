@@ -63,8 +63,9 @@ Use `cf help` and/or `cf <command> --help` for details on each of the commands b
 [source,bash]
 ----
 $source ./env
-$cf login -a https://api.$CF_SYSTEM_DOMAIN -u $CF_USER -o $CF_ORG -s $CF_SPACE --skip-ssl-validation
+$cf login -a https://api.$CF_SYSTEM_DOMAIN -u $CF_USER -o $CF_ORG -s $CF_SPACE 
 ----
+.. note: add `--skip-ssl-validation` if you are pointing to CF installation which is using self signed certificates. 
 +
 . Verify you are logged in with your own userid (*not admin*) and targeted to your PCF instance:
 +
