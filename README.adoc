@@ -34,7 +34,8 @@ To build the app go to the workspace folder
 [source,bash]
 ----
 cd pcf-workspace-devops/cities
-gradlew build
+./gradlew clean
+./gradlew build
 ----
 
 
@@ -78,9 +79,12 @@ $ cf target
 ----
 
 . Push the cities-service:
+Before pushing the app, check if the route exists and we can reach it. 
 +
 [source,bash]
 ----
+$ cd cities-service
+$ cf check-route <first-initial><last-initial>-cities-service cfapps.io
 $ cf push <first-initial><last-initial>-cities-service -i 1 -m 512M -p build/libs/cities-service-0.0.1-SNAPSHOT.jar
 ----
 +
@@ -119,7 +123,7 @@ Connection: keep-alive
 
 . Review link:http://docs.pivotal.io/pivotalcf/buildpacks/java/spring-service-bindings.html[Configuring Service Connections in Spring]
 
-. Note we have the Spring Cloud and MySQL dependencies to our Gradle build:
+. Add the Spring Cloud and MySQL dependencies to our Gradle build:
 +
 [source,groovy]
 ----
@@ -131,7 +135,17 @@ dependencies {
 }
 ----
 
-. Note the Spring Cloud Config file +org.example.cities.config.CloudDataSourceConfig+. 
+. Copy the Spring Cloud Config file +org.example.cities.config.CloudDataSourceConfig+. 
++
+[source,bash]
+----
+$cp templates/CloudDataSourceConfig.java src/main/java/org/example/cities/config/
+$./gradlew clean
+$./gradlew build
+
+----
+
+The Spring Cloud Config file source code: 
 +
 [source,java]
 ----
@@ -167,6 +181,13 @@ public class CloudDataSourceConfig extends AbstractCloudConfig {
 spring.jpa.hibernate.ddl-auto=create
 ----
 
++ 
+Now do a cf push and check the log files
+[source,bash]
+----
+$cf push <first-initial><last-initial>-cities-service -i 1 -m 512M -p build/libs/cities-service-0.0.1-SNAPSHOT.jar
+$cf logs <first-initial><last-initial>-cities-service --recent 
+----
  
 === Manually Creating a Database Service
 
