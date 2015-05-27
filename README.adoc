@@ -245,18 +245,20 @@ $ cf env <first-initial><last-initial>-cities-service
 Next, push the cities-service app. This time we'll use a manifest to help automate deployment.
 
 . Review the documentation: http://docs.pivotal.io/pivotalcf/devguide/deploy-apps/manifest.html
-
-. Review the application manifest in your `cities-service` directory called `manifest.yml`.  Minimally, you must set the name of the app, the amount of memory, the number of instances, and the path to the .jar file.
+. Copy the application manifest  `manifest.yml` from your `cities-service/templates` directory to `cities-service`.  Minimally, you must set the name of the app, the amount of memory, the number of instances, and the path to the .jar file.
++
+[source,bash]
+----
+$cp templates/manifest.yml .
+----
 +
 *Be sure to name your application '<first-initial><last-initial>-cities-service' and use this as the host value.*
-+
-We must be able to access your application at https://<first-initial><last-initial>-cities-service.YOUR_PCF_APP_DOMAIN
++ 
+. Add the services binding `<YOUR INITIALS>-cities-db` to your deployment manifest for cities-service .
 
-. The IBM Bluemix team has created a manifest generator app that can also be used:
-+
-* Hosted: http://cfmanigen.mybluemix.net/
-* Source: https://github.com/IBM-Bluemix/cf-manifest-generator
-+
+. Set the `SPRING_PROFILES_ACTIVE` environment variable to `cloud` in your deployment manifest.
+
+. Now, manually unbind the service and re-push your app using the manifest.  Was the database populated?
 
 . Test your manifest by re-pushing your app with no parameters:
 +
@@ -269,12 +271,7 @@ $ cf push
 ----
 $ curl -i http://<first-initial><last-initial>-cities-service.cfapps.io
 ----
-+
-. Add the services binding `<YOUR INITIALS>-cities-db` to your deployment manifest for cities-service .
-
-. Set the `SPRING_PROFILES_ACTIVE` environment variable to `cloud` in your deployment manifest.
-
-. Now, manually unbind the service and re-push your app using the manifest.  Was the database populated?
+We must be able to access your application at https://<first-initial><last-initial>-cities-service.YOUR_PCF_APP_DOMAIN
 
 . QUESTION: How would you set the `SPRING_PROFILES_ACTIVE` variable from the CLI?
 
