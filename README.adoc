@@ -399,7 +399,7 @@ No staging env variables have been set
 
 === Scaling apps
 
-Applications can be scaled via the command line or the console. When we talk about scale, there are two different types of scale: Vertical and Horizontal.
+Applications can be scaled via the command line or the console. When we talk about scale, there are two different types of scale: Vertical and Horizontal. Read link:http://docs.cloudfoundry.org/devguide/deploy-apps/cf-scale.html[this] doc on more details on scaling applications. 
 
 When you Vertically scale your application, you are increasing the amount of memory made available to your application. Scaling your application horizontally means that you are adding application instances.
 
@@ -425,7 +425,7 @@ $ cf app <first-initial><last-initial>-cities-service
 
 === Verify the app from the Console
 
-To verify that the application is running, use the following curl commands to retrieve data from the service:
+To verify that the application is running, use the following curl commands to retrieve data from the service or use a browser to access the URL:
 
 [source,bash]
 ----
@@ -446,20 +446,20 @@ $ curl -i http://<first-initial><last-initial>-cities-service.cfapps.io/cities?s
 
 The `cities` directory also includes a `cities-ui` application which uses the `cities-client` to consume from the `cities-service`.
 
-The `cities-client` demonstrates using the link:http://cloud.spring.io/spring-cloud-connectors[Spring Cloud Connector] project to consume from a microservice.  This is a common pattern for 3rd platform apps.  Be sure you understand how it works.
+The `cities-client` demonstrates using the link:http://cloud.spring.io/spring-cloud-connectors[Spring Cloud Connector] project to consume from a microservice.  This is a common pattern for 3rd platform apps.  For more details on building 12 Factor Apps for the 3rd platform (Cloud Foundry) refer to link:http://12factor.net/[this] document. 
 
 The goal of this exercise is to use what you have learned to deploy the `cities-ui` application.
 
 === Build the Cities UI and Cities Client App
 
-The cities-ui and cities-client can be both built at once by running `gradle assemble` in the parent +cities+ directory.
+The cities-ui and cities-client can be both built at once by running `./gradlew assemble` in the parent +cities+ directory.
 
 
 === Create a User Provided Service Instance.
 In this section we will create a backend microservice end point for cities-service.
 
 * Review the documentation on link:http://docs.pivotal.io/pivotalcf/devguide/services/user-provided.html[User Provided Service Instances]
-* Look for the details by running `cf help`.
+* Look for the details by running `cf cups --help`.
 
 * You will need to specify two parameters when you create the service instance: `uri` and `tag` (see: CitiesWebServiceInfoCreator.java).
 ** The `uri` should point to your deployed microservice
@@ -472,7 +472,15 @@ _Tags provide a flexible mechanism to expose a classification, attribute, or bas
 
 [source,bash]
 ----
-cf cups <first-initial><last-initial>-cities-ws -p '{"uri":"http://<first-initial><last-initial>-cities-service.cfapps.io/","tag":"cities"}'
+// Use the interactive prompt to create user defined service
+// It will prompt you for the parameters
+
+$cf cups <first-initial><last-initial>-cities-ws -p "uri",tag"
+
+uri>   http://<first-initial><last-initial>-cities-service.cfapps.io/
+tag>   cities
+
+Creating user provided service....
 ----
 
 === Deploy cities-ui project 
@@ -491,6 +499,12 @@ applications:
   services: [ <YOUR INITIALS>-cities-ws ]
   env:
     SPRING_PROFILES_ACTIVE: cloud
+----
+
+Push the `cities-ui` without specifying the manifest.yml. It will by default pick the manifest.yml file and deploy the app. 
+[source,bash]
+----
+$cf push 
 ----
 
 === Verify the backend service is bound to cities-ui
@@ -545,11 +559,13 @@ SPRING_PROFILES_ACTIVE: cloud
 ----
 
 === Access the cities-ui to verify it is connected to your microservice.
-Open the Console and launch the cities-ui application. 
+Open the App Manager (Console) and navigate to your apps. You will see the cities-ui app, with a link to launch the cities-ui application. 
 
 image:./images/cities-ui.png[Cities UI]
 
 == PART 3: Deploy Version 2 of the App
+
+In this section we are going to do a green-blue deployment using a shell script. The same can be done by executing the commands one at a time. 
 
 === Delete the unversioned app and the route
 [source,bash]
