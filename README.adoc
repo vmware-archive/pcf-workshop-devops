@@ -51,13 +51,13 @@ Use `cf help` and/or `cf <command> --help` for details on each of the commands b
 . Login to the PCF Env. Edit and Source the `env` file `cities` folder
 +
 [source,bash]
----
+----
  export CF_SYSTEM_DOMAIN=
  export CF_APPS_DOMAIN=
  export CF_USER=
  export CF_ORG=
  export CF_SPACE=
----
+----
 CF_SYSTEM_DOMAIN will look similar to run.pivotal.io
 CF_APPS_DOMAIN will look similar to cfapps.io
 CF_USER is the user account to sign into Pivotal Cloud Foundry, which is usually your email address
