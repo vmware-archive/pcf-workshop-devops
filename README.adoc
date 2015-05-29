@@ -692,7 +692,7 @@ Connection: keep-alive
 
 ----
 === Repeat the Process
-Change the version and build numbers and run the script to do blue-green deployment. Check the output using curl.
+Change the version (in the manifest) and build numbers (in the env file) and run the script to do blue-green deployment. Check the output using curl.
 
 
 === Process of Blue Green Deployment
