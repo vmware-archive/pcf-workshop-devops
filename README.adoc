@@ -58,11 +58,11 @@ Use `cf help` and/or `cf <command> --help` for details on each of the commands b
  export CF_ORG=
  export CF_SPACE=
 ----
-CF_SYSTEM_DOMAIN will look similar to run.pivotal.io
-CF_APPS_DOMAIN will look similar to cfapps.io
-CF_USER is the user account to sign into Pivotal Cloud Foundry, which is usually your email address
-CF_ORG is the name of the Organization within Pivotal Cloud Foundry where you want to deploy your applications
-CF_SPACE is the name of the Space within the above Organization where you want your application deployed.
+CF_SYSTEM_DOMAIN will look similar to run.pivotal.io<br>
+CF_APPS_DOMAIN will look similar to cfapps.io<br>
+CF_USER is the user account to sign into Pivotal Cloud Foundry, which is usually your email address.<br>
+CF_ORG is the name of the Organization within Pivotal Cloud Foundry where you want to deploy your applications.<br>
+CF_SPACE is the name of the Space within the above Organization where you want your application deployed.<br>
 
 +
 [source,bash]
