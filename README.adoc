@@ -8,6 +8,8 @@ To deploy and configure a microservice and UI, leverage the platform for monitor
 
 . Java SDK 1.6+
 . Git link:https://mac.github.com/[github.com]
+. Go link:https://golang.org/doc/install[Go Programming Language Install]
+. MySQL Workbench link:http://www.mysql.com/products/workbench/[MySQL Workbench] or other MySQL tool
 . Cloud Foundry CLI link:https://github.com/cloudfoundry/cli/releases[`CF CLI Releases`]
 . Curl link:http://curl.haxx.se/[curl]
 . Pivotal Web Services Account. Create a free trial account here link:http://run.pivotal.io/[`Pivotal Web Services`]
@@ -42,12 +44,6 @@ cd pcf-workspace-devops/cities
 == PART 1: Build, Push, Bind, Monitor and Scale an App. 
 
 === Pushing the cities-service app using CLI
-[source,bash]
-----
-cd pcf-workspace-devops/cities/cities-service
-----
-
-
 
 Use `cf help` and/or `cf <command> --help` for details on each of the commands below.
 
@@ -62,11 +58,17 @@ Use `cf help` and/or `cf <command> --help` for details on each of the commands b
  export CF_ORG=
  export CF_SPACE=
 ---
+CF_SYSTEM_DOMAIN will look similar to run.pivotal.io
+CF_APPS_DOMAIN will look similar to cfapps.io
+CF_USER is the user account to sign into Pivotal Cloud Foundry, which is usually your email address
+CF_ORG is the name of the Organization within Pivotal Cloud Foundry where you want to deploy your applications
+CF_SPACE is the name of the Space within the above Organization where you want your application deployed.
+
 +
 [source,bash]
 ----
-$source ./env
-$cf login -a https://api.$CF_SYSTEM_DOMAIN -u $CF_USER -o $CF_ORG -s $CF_SPACE 
+$ source ./env
+$ cf login -a https://api.$CF_SYSTEM_DOMAIN -u $CF_USER -o $CF_ORG -s $CF_SPACE 
 ----
 [NOTE]
 add `--skip-ssl-validation` if you are pointing to CF installation which is using self signed certificates. 
@@ -106,7 +108,7 @@ HTTP/1.1 200 OK
 Content-Type: application/hal+json
 Date: Mon, 18 May 2015 21:05:28 GMT
 Server: Apache-Coyote/1.1
-X-Application-Context: rr-cities-service:cloud:0
+X-Application-Context: rj-cities-service:cloud:0
 X-Cf-Requestid: 229f02ff-4e0e-46d9-7536-36ef7f50e7a3
 Content-Length: 147
 Connection: keep-alive
@@ -125,7 +127,7 @@ Connection: keep-alive
 
 . Review link:http://docs.pivotal.io/pivotalcf/buildpacks/java/spring-service-bindings.html[Configuring Service Connections in Spring]
 
-. Add the Spring Cloud and MySQL dependencies to our Gradle build:
+. Notice the Spring Cloud and MySQL dependencies to our Gradle build file (build.gradle)
 +
 [source,groovy]
 ----
@@ -141,12 +143,12 @@ dependencies {
 +
 [source,bash]
 ----
-$cp templates/CloudDataSourceConfig.java src/main/java/org/example/cities/config/
-$./gradlew clean
-$./gradlew build
+$ cp templates/CloudDataSourceConfig.java src/main/java/org/example/cities/config/
+$ ./gradlew clean
+$ ./gradlew build
 ----
 +
-. Review the Spring Cloud Config file. 
+. Review the Spring Cloud Config files (CloudDataSourceConfig.java and application.properties). 
 .. The `@Profile` annotation will cause this class (which becomes Spring configuration when annotated as `@Configuration`) to be added to the configuration set because of the `SPRING_PROFILES_ACTIVE` environment variable (more on this later). You can still run the application locally (with the default profile) using the embedded database.
 .. With this code, Spring Cloud will detect a bound service that is compatible with +DataSource+, read the credentials, and then create a +DataSource+ as appropriate (it will throw an exception otherwise).
 +
@@ -178,14 +180,21 @@ public class CloudDataSourceConfig extends AbstractCloudConfig {
 spring.jpa.hibernate.ddl-auto=create
 ----
 +
-. Now do a cf push and check the log files. You should see service exceptions. 
+. Now do a cf push. Notice that the push will fail. In the next step you can learn why.  
 +
 [source,bash]
 ----
-$cf push <first-initial><last-initial>-cities-service -i 1 -m 512M -p build/libs/cities-service-0.0.1-SNAPSHOT.jar
-$cf logs <first-initial><last-initial>-cities-service --recent 
+$ cf push <first-initial><last-initial>-cities-service -i 1 -m 512M -p build/libs/cities-service-0.0.1-SNAPSHOT.jar
 ----
- 
++
+. Check the logs to learn more about why the application is not starting
++
+[source,bash]
+----
+$ cf logs <first-initial><last-initial>-cities-service --recent 
+----
++
+
 === Manually Creating a Database Service
 
 Looks like we need a service.  Let's create one.
@@ -198,12 +207,12 @@ Looks like we need a service.  Let's create one.
 
 . Create a mysql service instance, name it as `<YOUR INITIALS>-cities-db`
 You can create the service from the `cli` or launch the App Manager http://console.run.pivotal.io and login. 
-Navigate to the marketplace and see the available services. 
+Navigate to the marketplace and see the available services. Here you will create the service using the CLI.
 +
 [source,bash]
 ----
-$cf marketplace // check if cleardb mysql service is available 
-$cf create-service cleardb spark <first-initial><last-initial>-cities-db
+$ cf marketplace // check if cleardb mysql service is available 
+$ cf create-service cleardb spark <first-initial><last-initial>-cities-db
 ----
 +
 
@@ -219,7 +228,7 @@ You can bind from the App Manager or from the `cli`
 +
 [source,bash]
 ----
-$cf bind-service <first-initial><last-initial>-cities-service <first-initial><last-initial>-cities-db
+$ cf bind-service <first-initial><last-initial>-cities-service <first-initial><last-initial>-cities-db
 ----
 +
 
@@ -231,6 +240,8 @@ $cf bind-service <first-initial><last-initial>-cities-service <first-initial><la
 $ cf restage <first-initial><last-initial>-cities-service
 ----
 
+Notice that the application is now running. 
+
 . Check the Env variables to see if the service is bound. 
 You can do it from App Manager or from the `cli`
 +
@@ -238,37 +249,45 @@ You can do it from App Manager or from the `cli`
 ----
 $ cf env <first-initial><last-initial>-cities-service
 ----
-
++
+. Check the MySQL database to see that it now contains data using MySQL Workbench or a similar tool.
 
 === Binding Services via the Manifest
 
-Next, push the cities-service app. This time we'll use a manifest to help automate deployment.
+Next, let's push the cities-service app with a manifest to help automate deployment.
 
 . Review the documentation: http://docs.pivotal.io/pivotalcf/devguide/deploy-apps/manifest.html
 . Copy the application manifest  `manifest.yml` from your `cities-service/templates` directory to `cities-service`.  
 +
 [source,bash]
 ----
-$cp templates/manifest.yml .
+$ cp templates/manifest.yml .
 ----
 +
 . Set the name of the app, the amount of memory, the number of instances, and the path to the .jar file.
 *Be sure to name your application '<first-initial><last-initial>-cities-service' and use this as the host value.*
 . Add the services binding `<YOUR INITIALS>-cities-db` to your deployment manifest for cities-service .
 . Set the `SPRING_PROFILES_ACTIVE` environment variable to `cloud` in your deployment manifest.
-. Now, manually unbind the service and re-push your app using the manifest.  Was the database populated?
+. Now, manually unbind the service and re-push your app using the manifest. 
++
+[source,bash]
+----
+$ cf unbind-service <first-initial><last-initial>-cities-service <first-initial><last-initial>-cities-db
+----
++
 . Test your manifest by re-pushing your app with no parameters:
 +
 [source,bash]
 ----
 $ cf push
 ----
+Notice that using a manifest, you have moved the command line parameters (number of instances, memory, etc) into the manifest.
 . Verify you can access your application via a curl request:
 [source,bash]
 ----
 $ curl -i http://<first-initial><last-initial>-cities-service.cfapps.io
 ----
-We must be able to access your application at https://<first-initial><last-initial>-cities-service.YOUR_PCF_APP_DOMAIN
+We must be able to access your application at https://<first-initial><last-initial>-cities-service.cfapps.io for the next steps to work properly.
 
 [QUESTION]
 How would you set the `SPRING_PROFILES_ACTIVE` variable from the CLI?
@@ -281,13 +300,13 @@ Learning about how your application is performing is critical to help you diagno
 To tail the logs of your application perform this command:
 [source,bash]
 ----
-$ cf logs <first-initial><last-initial>-cities-service.cfapps.io 
+$ cf logs <first-initial><last-initial>-cities-service
 ----
 
 Notice that nothing is showing because there isn't any activity. Use the following curl commmand to see the application working:
 [source,bash]
 ----
-$ curl -i http://<first-initial><last-initial>-cities-service.cfapps.io/cities/10
+$ curl -i http://<first-initial><last-initial>-cities-service.cfapps.io/cities/
 ----
 
 For other ways of viewing logs check out the documentation here: http://docs.pivotal.io/pivotalcf/devguide/deploy-apps/streaming-logs.html#view
@@ -401,7 +420,7 @@ No staging env variables have been set
 
 Applications can be scaled via the command line or the console. When we talk about scale, there are two different types of scale: Vertical and Horizontal. Read link:http://docs.cloudfoundry.org/devguide/deploy-apps/cf-scale.html[this] doc on more details on scaling applications. 
 
-When you Vertically scale your application, you are increasing the amount of memory made available to your application. Scaling your application horizontally means that you are adding application instances.
+When you vertically scale your application, you are increasing the amount of memory made available to your application. Scaling your application horizontally means that you are adding application instances.
 
 Let's vertically scale the application to 1 GB of RAM. 
 [source,bash]
@@ -414,7 +433,7 @@ Now scale your application down to 512 MB.
 Next, let's scale up your application to 2 instances
 [source,bash]
 ----
-$ cf scale scale <first-initial><last-initial>-cities-service -i 2
+$ cf scale <first-initial><last-initial>-cities-service -i 2
 ----
 
 To check the status of your applications you can check from the command line to see how many instances your app is running and their current state
@@ -422,6 +441,8 @@ To check the status of your applications you can check from the command line to 
 ----
 $ cf app <first-initial><last-initial>-cities-service
 ----
+
+Once the second instance as started, scale the app back down to one instance.
 
 === Verify the app from the Console
 
@@ -434,7 +455,7 @@ $ curl -i http://<first-initial><last-initial>-cities-service.cfapps.io/cities
 
 [source,bash]
 ----
-$ curl -i http://<first-initial><last-initial>-cities-service.cfapps.io/cities/7
+$ curl -i http://<first-initial><last-initial>-cities-service.cfapps.io/cities/162
 ----
 
 [source,bash]
@@ -446,13 +467,13 @@ $ curl -i http://<first-initial><last-initial>-cities-service.cfapps.io/cities?s
 
 The `cities` directory also includes a `cities-ui` application which uses the `cities-client` to consume from the `cities-service`.
 
-The `cities-client` demonstrates using the link:http://cloud.spring.io/spring-cloud-connectors[Spring Cloud Connector] project to consume from a microservice.  This is a common pattern for 3rd platform apps.  For more details on building 12 Factor Apps for the 3rd platform (Cloud Foundry) refer to link:http://12factor.net/[this] document. 
+The `cities-client` demonstrates using the link:http://cloud.spring.io/spring-cloud-connectors[Spring Cloud Connector] project to consume from a microservice.  This is a common pattern for 3rd platform apps.  For more details on building 12 Factor Apps for the 3rd platform (Cloud Foundry) refer to link:http://12factor.net/[this] website. 
 
 The goal of this exercise is to use what you have learned to deploy the `cities-ui` application.
 
 === Build the Cities UI and Cities Client App
 
-The cities-ui and cities-client can be both built at once by running `./gradlew assemble` in the parent +cities+ directory.
+The cities-ui and cities-client can be both built at once by running `./gradlew assemble` in the parent +cities+ directory. Run this commmand now.
 
 
 === Create a User Provided Service Instance.
@@ -461,7 +482,7 @@ In this section we will create a backend microservice end point for cities-servi
 * Review the documentation on link:http://docs.pivotal.io/pivotalcf/devguide/services/user-provided.html[User Provided Service Instances]
 * Look for the details by running `cf cups --help`.
 
-* You will need to specify two parameters when you create the service instance: `uri` and `tag` (see: CitiesWebServiceInfoCreator.java).
+* You will need to specify two parameters when you create the service instance: `uri` and `tag` (see: CitiesWebServiceInfoCreator.java in the cities-client project).
 ** The `uri` should point to your deployed microservice
 ** The `tag` is a property specified in the CitiesWebServiceInfoCreator.  Tags have a special meaning in CF:
 +
@@ -475,7 +496,7 @@ _Tags provide a flexible mechanism to expose a classification, attribute, or bas
 // Use the interactive prompt to create user defined service
 // It will prompt you for the parameters
 
-$cf cups <first-initial><last-initial>-cities-ws -p "uri",tag"
+$ cf create-user-provided-service <first-initial><last-initial>-cities-ws -p "uri,tag"
 
 uri>   http://<first-initial><last-initial>-cities-service.cfapps.io/
 tag>   cities
@@ -504,14 +525,16 @@ applications:
 Push the `cities-ui` without specifying the manifest.yml. It will by default pick the manifest.yml file and deploy the app. 
 [source,bash]
 ----
-$cf push 
+$ cf push 
 ----
+
+Note the URL once the application has been successfully pushed.
 
 === Verify the backend service is bound to cities-ui
 
 [source,bash]
 ----
-$ cf env cities-ui
+$ cf env <first-initial><last-initial>cities-ui
 
 System-Provided:
 {
@@ -559,7 +582,7 @@ SPRING_PROFILES_ACTIVE: cloud
 ----
 
 === Access the cities-ui to verify it is connected to your microservice.
-Open the App Manager (Console) and navigate to your apps. You will see the cities-ui app, with a link to launch the cities-ui application. 
+Open the App Manager (Console) and navigate to your apps. You will see the cities-ui app, with a link to launch the cities-ui application. Alternatively you can open up your browser and navigate to the URL listed from a successful cf push command. 
 
 image:./images/cities-ui.png[Cities UI]
 
@@ -592,12 +615,13 @@ We are going to deploy the next version of the `cities-ui` app. The deployment t
  export CF_USER=
  export CF_ORG=
  export CF_SPACE=
- export CF_APP=cities-ui
+ export CF_APP=<first-initial><last-initial>-cities-ui
  export CF_JAR=build/libs/cities-ui.jar
  export CF_MANIFEST=manifest.yml
  export BUILD_NUMBER=2001
 ---
 
+Note: Be sure to change the CF_APP name to match your application and add the BUILD_NUMBER to the env file.
 
 . Using the bash script `blue-green.sh` in the cities-ui directory, deploy the green v2 and delete the blue v1 of the app. 
 
@@ -637,7 +661,7 @@ fi
 [source,bash]
 ----
 $cf apps | grep -i cities-ui
-rj-cities-ui-5001                       started           1/1         512M     1G     rj-cities-ui.cfapps.io, rj-cities-ui-5001.cfapps.io   
+rj-cities-ui-2001                       started           1/1         512M     1G     rj-cities-ui.cfapps.io, rj-cities-ui-5001.cfapps.io   
 
 ----
 
@@ -645,8 +669,8 @@ rj-cities-ui-5001                       started           1/1         512M     1
 ----
 $cf routes | grep -i cities-ui
 
-development   rj-cities-ui                                           cfapps.io   rj-cities-ui-5001   
-development   rj-cities-ui-5001                                      cfapps.io   rj-cities-ui-5001   
+development   rj-cities-ui                                           cfapps.io   rj-cities-ui-2001   
+development   rj-cities-ui-2001                                      cfapps.io   rj-cities-ui-2001   
 
 ----
 
@@ -664,11 +688,12 @@ X-Cf-Requestid: d9fa0481-5cb4-47cd-6335-35adf575a0b6
 Content-Length: 4
 Connection: keep-alive
 
-5001
+2001
 
 ----
 === Repeat the Process
 Change the version and build numbers and run the script to do blue-green deployment. Check the output using curl.
+
 
 === Process of Blue Green Deployment
 
