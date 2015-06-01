@@ -4,15 +4,15 @@
 
 To deploy and configure a microservice and UI, leverage the platform for monitoring & management of the microservice, and do a blue green deployment with zero downtime.
 
-== Prerequisites 
+== Pre-Requisites 
 
 . Java SDK 1.6+
 . Git link:https://mac.github.com/[github.com]
-. Go link:https://golang.org/doc/install[Go Programming Language Install]
-. MySQL Workbench link:http://www.mysql.com/products/workbench/[MySQL Workbench] or other MySQL tool
 . Cloud Foundry CLI link:https://github.com/cloudfoundry/cli/releases[`CF CLI Releases`]
 . Curl link:http://curl.haxx.se/[curl]
 . Pivotal Web Services Account. Create a free trial account here link:http://run.pivotal.io/[`Pivotal Web Services`]
+. Optional: MySQL Workbench link:http://www.mysql.com/products/workbench/[MySQL Workbench] or other MySQL tool
+. Optional: Go link:https://golang.org/doc/install[Go Programming Language Install]
 . Familiarity with Spring link:http://www.spring.io[Spring IO]
 
 == Pre-work
