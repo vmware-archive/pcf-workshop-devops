@@ -193,7 +193,6 @@ $ cf push <first-initial><last-initial>-cities-service -i 1 -m 512M -p build/lib
 ----
 $ cf logs <first-initial><last-initial>-cities-service --recent 
 ----
-+
 
 === Manually Creating a Database Service
 
