@@ -55,7 +55,6 @@ Use `cf help` and/or `cf <command> --help` for details on each of the commands b
 ----
 $ cf login -a https://api.run.pivotal.io 
 ----
-
 . Alternatively you can set the env varibles in the `env` file in `cities` folder and source the `env` file
 +
 [source,bash]
@@ -72,6 +71,7 @@ $ cf login -a https://api.run.pivotal.io
 $ source ./env
 $ cf login -a https://api.$CF_SYSTEM_DOMAIN -u $CF_USER -o $CF_ORG -s $CF_SPACE 
 ----
++
 [NOTE]
 add `--skip-ssl-validation` if you are pointing to CF installation which is using self signed certificates. 
 
