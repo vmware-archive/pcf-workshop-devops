@@ -57,10 +57,8 @@ Use `cf help` and/or `cf <command> --help` for details on each of the commands b
 $ cf login -a https://api.run.pivotal.io 
 ----
 +
-
 . Alternatively you can set the env varibles in the `env` file in `cities` folder and source the `env` file
 
-+
 [source,bash]
 ----
  export CF_SYSTEM_DOMAIN=     //CF_SYSTEM_DOMAIN will look similar to run.pivotal.io +
@@ -69,7 +67,6 @@ $ cf login -a https://api.run.pivotal.io
  export CF_ORG=               //CF_ORG is the name of the Organization within Pivotal Cloud Foundry where you want to deploy your applications. +
  export CF_SPACE=             //CF_SPACE is the name of the Space within the above Organization where you want your application deployed. +
 ----
-
 +
 [source,bash]
 ----
