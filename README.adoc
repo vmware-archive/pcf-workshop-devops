@@ -1,4 +1,4 @@
-= Dev Ops on Cloud Foundry Platform
+= DevOps on Cloud Foundry Platform
 
 == Goals
 
