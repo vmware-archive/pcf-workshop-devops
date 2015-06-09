@@ -43,7 +43,7 @@ cd pcf-workspace-devops/cities
 
 == PART 1: Build, Push, Bind, Monitor and Scale an App. 
 
-=== Pushing the cities-ui app using CLI
+=== Pushing the cities-services app using CLI
 
 Use `cf help` and/or `cf <command> --help` for details on each of the commands below.
 
