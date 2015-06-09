@@ -43,26 +43,32 @@ cd pcf-workspace-devops/cities
 
 == PART 1: Build, Push, Bind, Monitor and Scale an App. 
 
-=== Pushing the cities-service app using CLI
+=== Pushing the cities-ui app using CLI
 
 Use `cf help` and/or `cf <command> --help` for details on each of the commands below.
 
 . Review the docs: http://docs.pivotal.io/pivotalcf/devguide/deploy-apps/deploy-app.html
-. Login to the PCF Env. Edit and Source the `env` file `cities` folder
+. Login to the Pivotal Cloud Foundry. 
++
+[source,bash]
+// Assuming you are using PWS, your system domain is run.pivotal.io
+// Use the interactive prompts to login in. 
+----
+$ cf login -a https://api.run.pivotal.io 
+----
++
+
+. Alternatively you can set the env varibles in the `env` file in `cities` folder and source the `env` file
+
 +
 [source,bash]
 ----
- export CF_SYSTEM_DOMAIN=
- export CF_APPS_DOMAIN=
- export CF_USER=
- export CF_ORG=
- export CF_SPACE=
+ export CF_SYSTEM_DOMAIN=     //CF_SYSTEM_DOMAIN will look similar to run.pivotal.io +
+ export CF_APPS_DOMAIN=       //CF_APPS_DOMAIN will look similar to cfapps.io +
+ export CF_USER=              //CF_USER is the user account to sign into Pivotal Cloud Foundry, which is usually your email address. +
+ export CF_ORG=               //CF_ORG is the name of the Organization within Pivotal Cloud Foundry where you want to deploy your applications. +
+ export CF_SPACE=             //CF_SPACE is the name of the Space within the above Organization where you want your application deployed. +
 ----
-CF_SYSTEM_DOMAIN will look similar to run.pivotal.io +
-CF_APPS_DOMAIN will look similar to cfapps.io +
-CF_USER is the user account to sign into Pivotal Cloud Foundry, which is usually your email address. +
-CF_ORG is the name of the Organization within Pivotal Cloud Foundry where you want to deploy your applications. +
-CF_SPACE is the name of the Space within the above Organization where you want your application deployed. +
 
 +
 [source,bash]
