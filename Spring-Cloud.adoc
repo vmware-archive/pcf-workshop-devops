@@ -1,6 +1,19 @@
+The cities-service app using Spring Cloud Configuration to connect to the database.
+
+
 . Review link:http://docs.pivotal.io/pivotalcf/buildpacks/java/spring-service-bindings.html[Configuring Service Connections in Spring]
 
 . Notice the Spring Cloud and MySQL dependencies to our Gradle build file (build.gradle)
+
++
+[source,groovy]
+----
+$cd cities-service
+$nano build.gradle
+
+----
++
+
 +
 [source,groovy]
 ----
@@ -12,16 +25,14 @@ dependencies {
 }
 ----
 +
-. Copy the Spring Cloud Config file +org.example.cities.config.CloudDataSourceConfig+.
+. Review the Spring Cloud Config files (CloudDataSourceConfig.java and application.properties).
 +
 [source,bash]
 ----
-$ cp templates/CloudDataSourceConfig.java src/main/java/org/example/cities/config/
-$ ./gradlew clean
-$ ./gradlew build
+$ nano src/main/java/org/example/cities/config/CloudDataSourceConfig.java
 ----
 +
-. Review the Spring Cloud Config files (CloudDataSourceConfig.java and application.properties).
+
 .. The `@Profile` annotation will cause this class (which becomes Spring configuration when annotated as `@Configuration`) to be added to the configuration set because of the `SPRING_PROFILES_ACTIVE` environment variable (more on this later). You can still run the application locally (with the default profile) using the embedded database.
 .. With this code, Spring Cloud will detect a bound service that is compatible with +DataSource+, read the credentials, and then create a +DataSource+ as appropriate (it will throw an exception otherwise).
 +

@@ -7,18 +7,19 @@ To deploy and configure a microservice and UI, leverage the platform for monitor
 == Prerequisites
 
 . Java SDK 1.7+
-. Git link:https://mac.github.com/[github.com]
-. Cloud Foundry CLI link:https://github.com/cloudfoundry/cli/releases[`CF CLI Releases`]
-. Curl link:http://curl.haxx.se/[curl]
-. Pivotal Web Services Account. Create a free trial account here link:http://run.pivotal.io/[`Pivotal Web Services`]
-. Optional: MySQL Workbench link:http://www.mysql.com/products/workbench/[MySQL Workbench] or other MySQL tool
-. Optional: Go link:https://golang.org/doc/install[Go Programming Language Install]
-. Familiarity with Spring link:http://www.spring.io[Spring IO]
+. Git from link:https://mac.github.com/[github.com]
+. Cloud Foundry CLI from link:https://github.com/cloudfoundry/cli/releases[`CF CLI Releases`]
+. Curl from link:http://curl.haxx.se/[curl]
+. Pivotal Web Services Account. +
+Create a free trial account here link:http://run.pivotal.io/[`Pivotal Web Services`]
+. Optional: Install link:http://www.mysql.com/products/workbench/[MySQL Workbench] or other MySQL tool
+. Optional: Install link:https://golang.org/doc/install[Go Programming Language ]
+. Familiarity with link:http://www.spring.io[Spring IO]
 
 == Pre-work
 
 . Fork and Clone link:https://github.com/Pivotal-Field-Engineering/pcf-workspace-devops/[`PCF Workspace for DevOps`]
-. Review the link:https://github.com/Pivotal-Field-Engineering/pcf-workspace-devops/tree/master[Overview] of the `cities` application.
+. Review the link:https://github.com/Pivotal-Field-Engineering/pcf-workspace-devops/tree/master[ `cities`] application.
 
 == Steps
 In this workshop we are going to follow these steps to deploy apps on Cloud foundry and manage the lifecycle of the application.
@@ -56,15 +57,17 @@ Use `cf help` and/or `cf <command> --help` for details on each of the commands b
 $ cf login -a https://api.run.pivotal.io
 ----
 +
-. Alternatively you can set the env varibles in the `env` file in `cities` folder and source the `env` file
+. Alternatively, you can set the env varibles in the `env` file in `cities` folder and source the `env` file
 +
 [source,bash]
 ----
- export CF_SYSTEM_DOMAIN=     //CF_SYSTEM_DOMAIN will look similar to run.pivotal.io +
- export CF_APPS_DOMAIN=       //CF_APPS_DOMAIN will look similar to cfapps.io +
- export CF_USER=              //CF_USER is the user account to sign into Pivotal Cloud Foundry, which is usually your email address. +
- export CF_ORG=               //CF_ORG is the name of the Organization within Pivotal Cloud Foundry where you want to deploy your applications. +
- export CF_SPACE=             //CF_SPACE is the name of the Space within the above Organization where you want your application deployed. +
+$nano env.sh
+
+ export CF_SYSTEM_DOMAIN=     //CF_SYSTEM_DOMAIN will look similar to run.pivotal.io
+ export CF_APPS_DOMAIN=       //CF_APPS_DOMAIN will look similar to cfapps.io
+ export CF_USER=              //CF_USER is the user account to sign into Pivotal Cloud Foundry, which is usually your email address.
+ export CF_ORG=               //CF_ORG is the name of the Organization within Pivotal Cloud Foundry where you want to deploy your applications.
+ export CF_SPACE=             //CF_SPACE is the name of the Space within the above Organization where you want your application deployed.
 ----
 +
 [source,bash]
@@ -86,9 +89,8 @@ $ cf target
 
 === Push the app
 
-. Push the cities-node-ui:
+. Push the cities-node-ui +
 Before pushing the app, check if the route exists and we can reach it.
-
 +
 [source,bash]
 ----
@@ -96,7 +98,7 @@ $ cd cities-node-ui
 $ cf check-route <first-initial><last-initial>-cities-node-ui cfapps.io
 $ cf push <first-initial><last-initial>-cities-node-ui -i 1 -m 512M -p build/libs/cities-service-0.0.1-SNAPSHOT.jar
 ----
-+
+
 * Be sure to name your application '<first-initial><last-initial>-cities-node-ui'
 
 . Open the app url http://<first-initial><last-initial>-cities-node-ui.cfapps.io from a Web Browser:
@@ -106,16 +108,21 @@ image:./images/cities-node-ui.png[DevOps on CF]
 
 === Recap: Part 1
 
-[quote, Cloud Foundry Haiku]
-____________________________________________________________________
+.Cloud Foundry Haiku
+[quote, Cloud Foundry]
+____
 Here is my source code +
 Run it on the cloud for me +
 I do not care how
-____________________________________________________________________
+____
 
-[QUESTION]
-How do you push an app to the cloud today?
-How does the cloud platform understand which runtime to use, to run the app?
+=== Discussion: Part 1
+
+[NOTE]
+====
+* How do you push an app to the cloud today?
+* How does the cloud platform understand which runtime to use to run the app?
+====
 
 
 == PART 2: Build, Push, Bind, Monitor and Scale an App.
@@ -196,7 +203,7 @@ $ cf env <first-initial><last-initial>-cities-service
 
 [NOTE]
 This app is an Spring Cloud app which uses Spring Cloud Configuration to bind to a database service provided by the cloud platform.
-For more information refer to link:Spring-Cloud.adoc[this document] on Spring Cloud configuration files
+For more information refer to link:Spring-Cloud.adoc[this document] on Spring Cloud configuration.
 
 
 
@@ -251,7 +258,7 @@ To tail the logs of your application perform this command:
 $ cf logs <first-initial><last-initial>-cities-service
 ----
 
-Notice that nothing is showing because there isn't any activity. Use the following curl commmand to see the application working:
+Notice that nothing is showing because there isn't any activity. Use the following curl command to see the application working:
 [source,bash]
 ----
 $ curl -i http://<first-initial><last-initial>-cities-service.cfapps.io/cities/
@@ -368,7 +375,8 @@ No staging env variables have been set
 
 Applications can be scaled via the command line or the console. When we talk about scale, there are two different types of scale: Vertical and Horizontal. Read link:http://docs.cloudfoundry.org/devguide/deploy-apps/cf-scale.html[this] doc on more details on scaling applications.
 
-When you vertically scale your application, you are increasing the amount of memory made available to your application. Scaling your application horizontally means that you are adding application instances.
+When you vertically scale your application, you are increasing the amount of memory made available to your application. You would vertically scale your application while profiling your app, do performance tuning and to find the best memory settings before you deploy it in production.
+Scaling your application horizontally means that you are adding application instances to increase your application throughput and performance under load.
 
 Let's vertically scale the application to 1 GB of RAM.
 [source,bash]
@@ -411,7 +419,7 @@ $ curl -i http://<first-initial><last-initial>-cities-service.cfapps.io/cities/1
 $ curl -i http://<first-initial><last-initial>-cities-service.cfapps.io/cities?size=5
 ----
 
-=== Recap: Part 2
+=== Discussion: Part 2
 In this part of the workshop we created a database service from the marketplace, push a app, bound it to the database service, monitored the health of the app and scale the app.
 
 [QUESTION]
@@ -544,7 +552,7 @@ image:./images/cities-ui.png[Cities UI]
 
 
 
-=== Recap: Part 3
+=== Discussion: Part 3
 In this part of the workshop we created a cities-ui app which is loosely bound and independently developed from the backend service. We bound that app to the cities-service microservice.
 
 [QUESTION]
@@ -570,51 +578,47 @@ We are going to deploy the next version of the `cities-ui` app. The deployment t
 ---
  VERSION: CITIES_APP_1_0
 ---
-
++
 . Edit and source the `env` file from the cities-ui folder with the following variables
-
++
 [source,bash]
 ---
-export CF_SYSTEM_DOMAIN=     //CF_SYSTEM_DOMAIN will look similar to run.pivotal.io +
-export CF_APPS_DOMAIN=       //CF_APPS_DOMAIN will look similar to cfapps.io +
-export CF_USER=              //CF_USER is the user account to sign into Pivotal Cloud Foundry, which is usually your email address. +
-export CF_ORG=               //CF_ORG is the name of the Organization within Pivotal Cloud Foundry where you want to deploy your applications. +
-export CF_SPACE=             //CF_SPACE is the name of the Space within the above Organization where you want your application deployed. +
-export CF_APP=<first-initial><last-initial>-cities-ui +
-export CF_JAR=build/libs/cities-ui.jar +
-export CF_MANIFEST=manifest.blue-green +
-export BUILD_NUMBER=1001 +
+export CF_SYSTEM_DOMAIN=     //CF_SYSTEM_DOMAIN will look similar to run.pivotal.io
+export CF_APPS_DOMAIN=       //CF_APPS_DOMAIN will look similar to cfapps.io
+export CF_USER=              //CF_USER is the user account to sign into Pivotal Cloud Foundry, which is usually your email address.
+export CF_ORG=               //CF_ORG is the name of the Organization within Pivotal Cloud Foundry where you want to deploy your applications.
+export CF_SPACE=             //CF_SPACE is the name of the Space within the above Organization where you want your application deployed.
+export CF_APP=<first-initial><last-initial>-cities-ui
+export CF_JAR=build/libs/cities-ui.jar
+export CF_MANIFEST=manifest.blue-green
+export BUILD_NUMBER=1001
 ---
-
-Note: Be sure to change the CF_APP name to match your application and add the BUILD_NUMBER to the env file.
-
-. First deploy the blue v1of the app.
++
+Note: Be sure to change the CF_APP name to match your application and add the BUILD_NUMBER to the env file. Add the Version number in the manifest.blue-green
++
+. First deploy the blue v1 of the app.
++
 [source,bash]
-
 ----
 // Push the new version of the app, with the version number and route
 $cf push "$CF_APP-$BUILD_NUMBER" -n "$CF_APP-$BUILD_NUMBER" -d $CF_APPS_DOMAIN -p $CF_JAR -f $CF_MANIFEST
 ----
 
-. Next, increment the BUILD_NUMBER in the env file and source it.
-
+. Next, increment the BUILD_NUMBER in the env file and source it. Change the VERSION number in the manifest.blue-green
++
 [source,bash]
 ----
-export CF_SYSTEM_DOMAIN=     //CF_SYSTEM_DOMAIN will look similar to run.pivotal.io +
-export CF_APPS_DOMAIN=       //CF_APPS_DOMAIN will look similar to cfapps.io +
-export CF_USER=              //CF_USER is the user account to sign into Pivotal Cloud Foundry, which is usually your email address. +
-export CF_ORG=               //CF_ORG is the name of the Organization within Pivotal Cloud Foundry where you want to deploy your applications. +
-export CF_SPACE=             //CF_SPACE is the name of the Space within the above Organization where you want your application deployed. +
-export CF_APP=<first-initial><last-initial>-cities-ui +
-export CF_JAR=build/libs/cities-ui.jar +
-export CF_MANIFEST=manifest.blue-green +
-export BUILD_NUMBER=2001 +
+....
+export BUILD_NUMBER=2001
+
+$nano manifest.yml
+....
+VERSION: CITIES_APP_2_0
 ----
 
 . Deploy the green v2 and delete the blue v1 of the app.
-
++
 [source,bash]
-
 ----
 // Push the new version of the app, with the version number and route
 $cf push "$CF_APP-$BUILD_NUMBER" -n "$CF_APP-$BUILD_NUMBER" -d $CF_APPS_DOMAIN -p $CF_JAR -f $CF_MANIFEST
@@ -633,10 +637,15 @@ $cf delete-route $CF_APPS_DOMAIN -n "$DEPLOYED_VERSION" -f
 
 ----
 
-. Alternatively, use the bash script `blue-green.sh` in the cities-ui directory, deploy the green v2 and delete the blue v1 of the app.
+. Alternatively, use the bash script `blue-green.sh` in the cities-ui directory, deploy the green v2 and delete the blue v1 of the app. +
+If you are using the script make sure you increment the BUILD_NUMBER in the env file and change the VERSION number in the manifest.blue-green.
+
++
 
 [source,bash]
 ----
+$ cat blue-green.sh
+
 source env
 cf login -a https://api.$CF_SYSTEM_DOMAIN -u $CF_USER -o $CF_ORG -s $CF_SPACE --skip-ssl-validation
 
@@ -698,7 +707,7 @@ X-Cf-Requestid: d9fa0481-5cb4-47cd-6335-35adf575a0b6
 Content-Length: 4
 Connection: keep-alive
 
-2001
+CITIES_APP_2_0
 
 ----
 === Repeat the Process
