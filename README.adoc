@@ -431,7 +431,7 @@ $ curl -i http://<first-initial><last-initial>-cities-service.cfapps.io/cities?s
 ----
 
 === Discussion: Part 2
-In this part of the workshop we created a database service from the marketplace, push a app, bound it to the database service, monitored the health of the app and scale the app.
+In this part of the workshop we created a database service from the marketplace, pushed an app, bound it to the database service, monitored the health of the app and scaled the app.
 
 [NOTE]
 ====
