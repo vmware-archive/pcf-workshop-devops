@@ -10,6 +10,8 @@ To deploy and configure a microservice and UI, leverage the platform for monitor
 . Git from link:https://mac.github.com/[github.com]
 . Cloud Foundry CLI from link:https://github.com/cloudfoundry/cli/releases[`CF CLI Releases`]
 . Curl from link:http://curl.haxx.se/[curl]
+. Node and NPM from link:https://nodejs.org/[nodejs]
+. Bower using NPM link:http://bower.io/[bower]
 . Pivotal Web Services Account. +
 Create a free trial account here link:http://run.pivotal.io/[`Pivotal Web Services`]
 . Optional: Install link:http://www.mysql.com/products/workbench/[MySQL Workbench] or other MySQL tool
@@ -89,21 +91,30 @@ $ cf target
 
 === Push the app
 
-. Push the cities-node-ui +
+. Build the app +
+cf-drivers-node is a Node app, download the dependencies of the Nodejs / AngularJS app +
++
+[source,bash]
+----
+$ cd cf-drivers-node
+$ npm update
+$ bower update
+----
+
+. Push the cities-node +
 Before pushing the app, check if the route exists and we can reach it.
 +
 [source,bash]
 ----
-$ cd cities-node-ui
-$ cf check-route <first-initial><last-initial>-cities-node-ui cfapps.io
-$ cf push <first-initial><last-initial>-cities-node-ui -i 1 -m 512M -p build/libs/cities-service-0.0.1-SNAPSHOT.jar
+$ cf check-route <first-initial><last-initial>-drivers-node cfapps.io
+$ cf push <first-initial><last-initial>-drivers-node -i 1 -m 512M
 ----
 
-* Be sure to name your application '<first-initial><last-initial>-cities-node-ui'
+* Be sure to name your application '<first-initial><last-initial>-drivers-node-ui'
 
-. Open the app url http://<first-initial><last-initial>-cities-node-ui.cfapps.io from a Web Browser:
+. Open the app url http://<first-initial><last-initial>-drivers-node.cfapps.io from a Web Browser:
 
-image:./images/cities-node-ui.png[DevOps on CF]
+image:./images/drivers-node.png[DevOps on CF]
 
 
 === Recap: Part 1
@@ -422,9 +433,13 @@ $ curl -i http://<first-initial><last-initial>-cities-service.cfapps.io/cities?s
 === Discussion: Part 2
 In this part of the workshop we created a database service from the marketplace, push a app, bound it to the database service, monitored the health of the app and scale the app.
 
-[QUESTION]
-How does the app get the database info today vs. VCAP_SERVICES?
-How do you horizontally scale your applications?
+[NOTE]
+====
+* How does the app get the database info today vs. VCAP_SERVICES?
+* How do you horizontally scale your applications?
+====
+
+
 
 
 == PART 3: Deploying Upstream App and Bind to backend services
@@ -555,8 +570,10 @@ image:./images/cities-ui.png[Cities UI]
 === Discussion: Part 3
 In this part of the workshop we created a cities-ui app which is loosely bound and independently developed from the backend service. We bound that app to the cities-service microservice.
 
-[QUESTION]
-Discussion on loose coupling of your services from your app and 12 Factor App design principles.
+[NOTE]
+====
+* Discussion on loose coupling of your services from your app and 12 Factor App design principles.
+====
 
 
 == PART 4: Deploy Version 2 of the App
@@ -740,6 +757,16 @@ $ cf zero-downtime-push cities-services \
     -p build/libs//cities-service-0.0.1-SNAPSHOT.jar
 
 ----
+
+=== Discussion: Part 4
+In this part of the workshop did deployment using a blue green script without any downtime.
+This script / methodology can be used in your CD pipeline to build and deploy Cloud Native Apps with zero downtime............................................................................
+
+
+[NOTE]
+====
+* Discussion on how do you do CD today.
+====
 
 
 == Recap
