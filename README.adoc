@@ -92,7 +92,7 @@ $ cf target
 === Push the app
 
 . Build the app +
-cf-drivers-node is a Node app, download the dependencies of the Nodejs / AngularJS app +
+cf-drivers-node is a Node app, download the dependencies for the Nodejs / AngularJS app +
 +
 [source,bash]
 ----
@@ -110,7 +110,7 @@ $ cf check-route <first-initial><last-initial>-drivers-node cfapps.io
 $ cf push <first-initial><last-initial>-drivers-node -i 1 -m 512M
 ----
 
-* Be sure to name your application '<first-initial><last-initial>-drivers-node-ui'
+* Be sure to name your application '<first-initial><last-initial>-drivers-node'
 
 . Open the app url http://<first-initial><last-initial>-drivers-node.cfapps.io from a Web Browser:
 
