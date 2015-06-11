@@ -764,7 +764,7 @@ This script / methodology can be used in your CD pipeline to build and deploy Cl
 
 [NOTE]
 ====
-* Discussion on how do you do Continous Deployment and Delivery without zero downtime today.
+* Discussion on how do you do Continous Deployment and Delivery with zero downtime today.
 ====
 
 
