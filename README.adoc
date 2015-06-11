@@ -275,7 +275,7 @@ Notice that nothing is showing because there isn't any activity. Use the followi
 $ curl -i http://<first-initial><last-initial>-cities-service.cfapps.io/cities/
 ----
 
-For other ways of viewing logs check out the documentation here: http://docs.pivotal.io/pivotalcf/devguide/deploy-apps/streaming-logs.html#view
+For other ways of viewing logs check out the documentation here: link:http://docs.pivotal.io/pivotalcf/devguide/deploy-apps/streaming-logs.html#view[Streaming Logs]
 
 To view recent events, including application crashes, and error codes, you can see them from the App Manager or from the cli.
 [source,bash]
@@ -307,7 +307,7 @@ stack: cflinuxfs2
 
 === Environment variables
 
-View the environment variable and explanation of link:http://docs.cloudfoundry.org/devguide/deploy-apps/environment-variable.html#view-env [VCAP Env]
+View the environment variable and explanation of link:http://docs.cloudfoundry.org/devguide/deploy-apps/environment-variable.html#view-env[VCAP Env]
 
 [source,bash]
 ----
