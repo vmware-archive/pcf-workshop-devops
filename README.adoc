@@ -759,8 +759,8 @@ $ cf zero-downtime-push cities-services \
 ----
 
 === Discussion: Part 4
-In this part of the workshop did deployment using a blue green script without any downtime.+
-This script / methodology can be used in your CD pipeline to build and deploy Cloud Native Apps with zero downtime.+
+In this part of the workshop did deployment using a blue green script without any downtime.
+This script / methodology can be used in your CD pipeline to build and deploy Cloud Native Apps with zero downtime.
 
 [NOTE]
 ====
