@@ -89,19 +89,7 @@ $ cf target
 
 === Push the app
 
-<<<<<<< HEAD
 . Push the cities-hello +
-=======
-. Build the app +
-cf-drivers-node is a Node app, download the dependencies for the Nodejs / AngularJS app +
-+
-[source,bash]
-----
-$ cd cf-drivers-node
-$ npm update
-$ bower update
-----
->>>>>>> origin/master
 
 +
 [source,bash]
@@ -120,15 +108,9 @@ stack: cflinuxfs2
 
 ----
 +
-
-<<<<<<< HEAD
 . Open the app url from the above output +
 When you push the apps, it will give the url route to the app. +
 image:./images/welcome.png[Welcome to PCF Workshop] +
-=======
-* Be sure to name your application '<first-initial><last-initial>-drivers-node'
->>>>>>> origin/master
-
 
 . Walk through the App Console and the Ops Manager
 
