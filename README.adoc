@@ -89,7 +89,19 @@ $ cf target
 
 === Push the app
 
+<<<<<<< HEAD
 . Push the cities-hello +
+=======
+. Build the app +
+cf-drivers-node is a Node app, download the dependencies for the Nodejs / AngularJS app +
++
+[source,bash]
+----
+$ cd cf-drivers-node
+$ npm update
+$ bower update
+----
+>>>>>>> origin/master
 
 +
 [source,bash]
@@ -109,9 +121,13 @@ stack: cflinuxfs2
 ----
 +
 
+<<<<<<< HEAD
 . Open the app url from the above output +
 When you push the apps, it will give the url route to the app. +
 image:./images/welcome.png[Welcome to PCF Workshop] +
+=======
+* Be sure to name your application '<first-initial><last-initial>-drivers-node'
+>>>>>>> origin/master
 
 
 . Walk through the App Console and the Ops Manager
@@ -275,7 +291,7 @@ Notice that nothing is showing because there isn't any activity. Use the followi
 $ curl -i http://<first-initial><last-initial>-cities-service.cfapps.io/cities/
 ----
 
-For other ways of viewing logs check out the documentation here: http://docs.pivotal.io/pivotalcf/devguide/deploy-apps/streaming-logs.html#view
+For other ways of viewing logs check out the documentation here: link:http://docs.pivotal.io/pivotalcf/devguide/deploy-apps/streaming-logs.html#view[Streaming Logs]
 
 To view recent events, including application crashes, and error codes, you can see them from the App Manager or from the cli.
 [source,bash]
@@ -307,7 +323,7 @@ stack: cflinuxfs2
 
 === Environment variables
 
-View the environment variable and explanation of link:http://docs.cloudfoundry.org/devguide/deploy-apps/environment-variable.html#view-env [VCAP Env]
+View the environment variable and explanation of link:http://docs.cloudfoundry.org/devguide/deploy-apps/environment-variable.html#view-env[VCAP Env]
 
 [source,bash]
 ----
@@ -431,7 +447,7 @@ $ curl -i http://<first-initial><last-initial>-cities-service.cfapps.io/cities?s
 ----
 
 === Discussion: Part 2
-In this part of the workshop we created a database service from the marketplace, push a app, bound it to the database service, monitored the health of the app and scale the app.
+In this part of the workshop we created a database service from the marketplace, pushed an app, bound it to the database service, monitored the health of the app and scaled the app.
 
 [NOTE]
 ====
@@ -760,12 +776,11 @@ $ cf zero-downtime-push cities-services \
 
 === Discussion: Part 4
 In this part of the workshop did deployment using a blue green script without any downtime.
-This script / methodology can be used in your CD pipeline to build and deploy Cloud Native Apps with zero downtime............................................................................
-
+This script / methodology can be used in your CD pipeline to build and deploy Cloud Native Apps with zero downtime.
 
 [NOTE]
 ====
-* Discussion on how do you do CD today.
+* Discussion on how do you do Continous Deployment and Delivery with zero downtime today.
 ====
 
 
