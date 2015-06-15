@@ -108,7 +108,7 @@ stack: cflinuxfs2
 
 ----
 +
-. Open the app url from the above output +
+. Open the app url +
 When you push the apps, it will give the url route to the app. +
 image:./images/welcome.png[Welcome to PCF Workshop] +
 
