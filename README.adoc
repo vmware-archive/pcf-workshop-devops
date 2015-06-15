@@ -10,8 +10,6 @@ To deploy and configure a microservice and UI, leverage the platform for monitor
 . Git from link:https://mac.github.com/[github.com]
 . Cloud Foundry CLI from link:https://github.com/cloudfoundry/cli/releases[`CF CLI Releases`]
 . Curl from link:http://curl.haxx.se/[curl]
-. Node and NPM from link:https://nodejs.org/[nodejs]
-. Bower using NPM link:http://bower.io/[bower]
 . Pivotal Web Services Account. +
 Create a free trial account here link:http://run.pivotal.io/[`Pivotal Web Services`]
 . Optional: Install link:http://www.mysql.com/products/workbench/[MySQL Workbench] or other MySQL tool
@@ -91,30 +89,32 @@ $ cf target
 
 === Push the app
 
-. Build the app +
-cf-drivers-node is a Node app, download the dependencies of the Nodejs / AngularJS app +
+. Push the cities-hello +
+
 +
 [source,bash]
 ----
-$ cd cf-drivers-node
-$ npm update
-$ bower update
-----
+$ cd cities-hello
+$ cf push <first-initial><last-initial>-cities-hello
 
-. Push the cities-node +
-Before pushing the app, check if the route exists and we can reach it.
+// This will give an output which is similar to this
+
+requested state: started
+instances: 1/1
+usage: 512M x 1 instances
+urls: cities-hello-lactiferous-unanswerableness.cfapps.io
+last uploaded: Mon Jun 15 14:53:10 UTC 2015
+stack: cflinuxfs2
+
+----
 +
-[source,bash]
-----
-$ cf check-route <first-initial><last-initial>-drivers-node cfapps.io
-$ cf push <first-initial><last-initial>-drivers-node -i 1 -m 512M
-----
 
-* Be sure to name your application '<first-initial><last-initial>-drivers-node-ui'
+. Open the app url from the above output +
+When you push the apps, it will give the url route to the app. +
+image:./images/welcome.png[Welcome to PCF Workshop] +
 
-. Open the app url http://<first-initial><last-initial>-drivers-node.cfapps.io from a Web Browser:
 
-image:./images/drivers-node.png[DevOps on CF]
+. Walk through the App Console and the Ops Manager
 
 
 === Recap: Part 1
